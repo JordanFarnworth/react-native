@@ -1,54 +1,45 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- * @flow
- */
+//Import Required Code
+var React = require('react-native');
+var Moment = require('moment');
+var AppRegistry = React.AppRegistry;
+var Text = React.Text;
+var View = React.View;
+var StyleSheet = React.StyleSheet;
+var DayItem = require('./src/day-item');
 
-import React, {
-  AppRegistry,
-  Component,
-  StyleSheet,
-  Text,
-  View
-} from 'react-native';
+var DAYS = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
 
-class weekdays extends Component {
-  render() {
-    return (
-      <View style={styles.container}>
-        <Text style={styles.welcome}>
-          Welcome to React Native!
-          Dougs first RN App ...
-        </Text>
-        <Text style={styles.instructions}>
-          To get started, edit index.ios.js
-        </Text>
-        <Text style={styles.instructions}>
-          Press Cmd+R to reload,{'\n'}
-          Cmd+D or shake for dev menu
-        </Text>
-      </View>
-    );
-  }
-}
+// Create a React Component
+var Weekdays = React.createClass({
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
+  render: function(){
+    return <View style = {styles.container}>
+      {this.days()}
+    </View>
   },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
-  },
+
+  days: function(){
+    var dayItems = [];
+    for(var i=1; i<=7; i++){
+      var day = Moment().add(i, 'days').format('dddd');
+      dayItems.push(<DayItem day={day} daysUntil={i}/>);
+    }
+    return dayItems;
+    }
 });
 
-AppRegistry.registerComponent('weekdays', () => weekdays);
+
+// Style componenet
+
+styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: 'center',     // controls horizontal placement
+    justifyContent: 'center'  //controls vertical placement
+  }
+})
+
+// Show the React Component
+AppRegistry.registerComponent('weekdays', function(){
+  return Weekdays;
+});
